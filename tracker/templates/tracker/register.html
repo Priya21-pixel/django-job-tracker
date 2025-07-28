@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<style>
+    body {
+        background: linear-gradient(135deg, #fceabb, #f8b500);
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        min-height: 100vh;
+    }
+
+    .card {
+        border: none;
+        border-radius: 15px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+        padding: 30px;
+        background-color: white;
+    }
+
+    .form-label {
+        font-weight: bold;
+    }
+
+    .btn-success {
+        background-color: #43a047;
+        border: none;
+    }
+
+    .btn-success:hover {
+        background-color: #2e7d32;
+    }
+
+    .login-link {
+        text-align: center;
+        margin-top: 15px;
+    }
+</style>
+
+<div class="container d-flex justify-content-center align-items-center min-vh-100">
+    <div class="card col-md-6 col-lg-5">
+        <h2 class="text-center text-dark mb-4">Register</h2>
+        <form method="POST">
+            {% csrf_token %}
+            {% for field in form %}
+                <div class="mb-3">
+                    <label class="form-label" for="{{ field.id_for_label }}">{{ field.label }}</label>
+                    {{ field }}
+                    {% if field.help_text %}
+                        <div class="form-text">{{ field.help_text }}</div>
+                    {% endif %}
+                    {% for error in field.errors %}
+                        <div class="text-danger small">{{ error }}</div>
+                    {% endfor %}
+                </div>
+            {% endfor %}
+            <button type="submit" class="btn btn-success w-100">Register</button>
+        </form>
+        <div class="login-link">
+            <p>Already have an account? <a href="{% url 'login' %}">Login here</a></p>
+        </div>
+    </div>
+</div>
+{% endblock %}

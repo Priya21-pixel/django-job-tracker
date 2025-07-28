@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block content %}
+<style>
+    body {
+        background: linear-gradient(135deg, #e0f7fa, #80deea);
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        min-height: 100vh;
+    }
+
+    .card {
+        border: none;
+        border-radius: 15px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        padding: 30px;
+        background-color: #fff;
+    }
+
+    .btn-primary {
+        background-color: #00796b;
+        border: none;
+    }
+
+    .btn-primary:hover {
+        background-color: #004d40;
+    }
+
+    .form-label {
+        font-weight: 600;
+    }
+</style>
+
+<div class="container d-flex justify-content-center align-items-center min-vh-100">
+    <div class="card col-md-7 col-lg-6">
+        <h2 class="text-center text-primary mb-4">Edit Job Entry</h2>
+        <form method="POST">
+            {% csrf_token %}
+
+            <div class="mb-3">
+                <label for="id_company" class="form-label">Company</label>
+                {{ form.company|add_class:"form-control" }}
+                {{ form.company.errors }}
+            </div>
+
+            <div class="mb-3">
+                <label for="id_position" class="form-label">Position</label>
+                {{ form.position|add_class:"form-control" }}
+                {{ form.position.errors }}
+            </div>
+
+            <div class="mb-3">
+                <label for="id_link" class="form-label">Link</label>
+                {{ form.link|add_class:"form-control" }}
+                {{ form.link.errors }}
+            </div>
+
+            <div class="mb-3">
+                <label for="id_date_applied" class="form-label">Date Applied</label>
+                {{ form.date_applied }}
+                {{ form.date_applied.errors }}
+            </div>
+
+            <div class="mb-3">
+                <label for="id_deadline" class="form-label">Deadline</label>
+                {{ form.deadline }}
+                {{ form.deadline.errors }}
+            </div>
+
+            <div class="mb-3">
+                <label for="id_status" class="form-label">Status</label>
+                {{ form.status|add_class:"form-control" }}
+                {{ form.status.errors }}
+            </div>
+
+            
+
+            <button type="submit" class="btn btn-primary w-100">Update</button>
+
+        </form>
+    </div>
+</div>
+{% endblock %}

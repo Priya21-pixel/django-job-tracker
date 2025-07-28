@@ -1,0 +1,48 @@
+{% extends 'tracker/base.html' %}
+{% load widget_tweaks %}
+
+{% block content %}
+<h2>Add New Job</h2>
+<form method="post">
+    {% csrf_token %}
+    {{ form.non_field_errors }}
+
+    <div class="mb-3">
+        <label>Company:</label>
+        {{ form.company|add_class:"form-control" }}
+        {{ form.company.errors }}
+    </div>
+
+    <div class="mb-3">
+        <label>Position:</label>
+        {{ form.position|add_class:"form-control" }}
+        {{ form.position.errors }}
+    </div>
+
+    <div class="mb-3">
+        <label>Link:</label>
+        {{ form.link|add_class:"form-control" }}
+        {{ form.link.errors }}
+    </div>
+
+    <div class="mb-3">
+        <label>Date Applied:</label>
+        {{ form.date_applied|add_class:"form-control" }}
+        {{ form.date_applied.errors }}
+    </div>
+
+    <div class="mb-3">
+        <label>Deadline:</label>
+        {{ form.deadline|add_class:"form-control" }}
+        {{ form.deadline.errors }}
+    </div>
+
+    <div class="mb-3">
+        <label>Status:</label>
+        {{ form.status|add_class:"form-control" }}
+        {{ form.status.errors }}
+    </div>
+
+    <button type="submit" class="btn btn-success">Save Job</button>
+</form>
+{% endblock %}

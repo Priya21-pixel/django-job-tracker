@@ -1,0 +1,35 @@
+{% extends 'tracker/base.html' %}
+{% block content %}
+<h1 class="text-primary">Job Applications</h1>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Company</th>
+            <th>Position</th>
+            <th>Date Applied</th>
+            <th>Deadline</th>
+            <th>Status</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for job in jobs %}
+        <tr>
+            <td>{{ job.company }}</td>
+            <td>{{ job.position }}</td>
+            <td>{{ job.date_applied }}</td>
+            <td>{{ job.deadline }}</td>
+            <td>{{ job.status }}</td>
+            <td>
+                <a href="{% url 'edit_job' job.id %}" class="btn btn-sm btn-primary">Edit</a>
+            </td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="6">No jobs found.</td></tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<a href="{% url 'add_job' %}" class="btn btn-success">+ Add New Job</a>
+{% endblock %}

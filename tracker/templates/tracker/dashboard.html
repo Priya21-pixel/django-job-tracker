@@ -1,0 +1,130 @@
+{% extends 'tracker/base.html' %}
+
+{% block content %}
+{% if upcoming %}
+    {% for job in upcoming %}
+        <div class="alert alert-warning">
+            ⏰ <strong>Deadline Soon:</strong> {{ job.company }} - {{ job.position }} ({{ job.deadline }})
+        </div>
+    {% endfor %}
+{% endif %}
+
+<h1 class="text-primary">Your Job Applications</h1>
+
+<div class="row mb-4">
+    <div class="col-md-3">
+        <div class="card text-white bg-primary mb-3">
+            <div class="card-body">
+                <h5 class="card-title">📝 Applied</h5>
+                <p class="card-text">{{ stats.Applied }}</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-white bg-warning mb-3">
+            <div class="card-body">
+                <h5 class="card-title">📞 Interview</h5>
+                <p class="card-text">{{ stats.Interview }}</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-white bg-success mb-3">
+            <div class="card-body">
+                <h5 class="card-title">✅ Offer </h5>
+                <p class="card-text">{{ stats.Offer }}</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-white bg-danger mb-3">
+            <div class="card-body">
+                <h5 class="card-title">❌ Rejected</h5>
+                <p class="card-text">{{ stats.Rejected }}</p>
+            </div>
+        </div>
+    </div>
+    <!-- Shortlisted -->
+     <div class="col-md-3">
+        <div class="card text-white mb-3" style="background-color: #6f42c1;"> 
+            <div class="card-body">
+                <h5 class="card-title">📌 Shortlisted</h5>
+                <p class="card-text">{{ stats.Shortlisted }}</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Assessment -->
+     <div class="col-md-3">
+        <div class="card text-white bg-info" style="background-color: #6f42c1;"> 
+            <div class="card-body">
+                <h5 class="card-title"> 📝 Assessment </h5>
+                <p class="card-text">{{ stats.Assessment }}</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hired -->
+    <div class="col-md-3">
+        <div class="card text-white bg-success" style="background-color: #6f42c1;"> 
+            <div class="card-body">
+                <h5 class="card-title"> 🎉 Hired </h5>
+                <p class="card-text">{{ stats.Hired }}</p>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+<div class="mb-3">
+    <a class="btn btn-success" href="{% url 'add_job' %}">Add Job</a>
+    <a class="btn btn-success" href="{% url 'export_csv' %}">Export CSV</a>
+</div>
+
+<form method="get" class="mb-3">
+    <input type="text" name="query" placeholder="Search Company" class="form-control mb-2" value="{{ request.GET.query }}">
+    <select name="status" class="form-control mb-2">
+        <option value="">All Statuses</option>
+        <option value="Applied" {% if request.GET.status == 'Applied' %}selected{% endif %}>Applied</option>
+        <option value="Interview" {% if request.GET.status == 'Interview' %}selected{% endif %}>Interview</option>
+        <option value="Offer" {% if request.GET.status == 'Offer' %}selected{% endif %}>Offer</option>
+        <option value="Rejected" {% if request.GET.status == 'Rejected' %}selected{% endif %}>Rejected</option>
+        <option value="Shortlisted" {% if request.GET.status == 'Shortlisted' %}selected{% endif %}>Shortlisted</option>
+        <option value="Assessment" {% if request.GET.status == 'Assessment' %}selected{% endif %}>Assessment</option>
+        <option value="Hired" {% if request.GET.status == 'Hired' %}selected{% endif %}>Hired</option>
+    </select>
+    <button type="submit" class="btn btn-primary">Filter</button>
+</form>
+
+<table class="table table-hover table-striped table-bordered">
+
+    <thead>
+        <tr>
+            <th>Company</th>
+            <th>Position</th>
+            <th>Status</th>
+            <th>Deadline</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for job in jobs %}
+            <tr>
+                <td>{{ job.company }}</td>
+                <td>{{ job.position }}</td>
+                <td>{{ job.status }}</td>
+                <td>{{ job.deadline }}</td>
+                <td>
+                    <a href="{% url 'edit_job' job.id %}" class="btn btn-sm btn-primary">Edit</a>
+                    <a href="{% url 'delete_job' job.id %}" class="btn btn-sm btn-danger">Delete</a>
+                </td>
+            </tr>
+        {% empty %}
+            <tr>
+                <td colspan="4">No job applications found.</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
